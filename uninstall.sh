@@ -1,5 +1,4 @@
 #!/bin/sh
-
 # uninstall
 if [ -x "/bin/opkg" ]; then
 	opkg list-installed luci-i18n-momo-* | cut -d ' ' -f 1 | xargs opkg remove
@@ -23,7 +22,7 @@ if [ -x "/bin/opkg" ]; then
 	if grep -q momo /etc/opkg/customfeeds.conf; then
 		sed -i '/momo/d' /etc/opkg/customfeeds.conf
 	fi
-	wget -O "momo.pub" "https://momomomo.pages.dev/key-build.pub"
+	wget -O "momo.pub" "https://mosb.pages.dev/key-build.pub"
 	opkg-key remove momo.pub
 	rm -f momo.pub
 elif [ -x "/usr/bin/apk" ]; then
