@@ -1,16 +1,12 @@
 #!/bin/sh
-
 # Momo's installer
-
 # check env
 if [[ ! -x "/bin/opkg" && ! -x "/usr/bin/apk" || ! -x "/sbin/fw4" ]]; then
 	echo "only supports OpenWrt build with firewall4!"
 	exit 1
 fi
-
 # include openwrt_release
 . /etc/openwrt_release
-
 # get branch/arch
 arch="$DISTRIB_ARCH"
 branch=
@@ -29,11 +25,9 @@ case "$DISTRIB_RELEASE" in
 		exit 1
 		;;
 esac
-
 # feed url
-repository_url="https://momomomo.pages.dev"
+repository_url="https://mosb.pages.dev"
 feed_url="$repository_url/$branch/$arch/momo"
-
 if [ -x "/bin/opkg" ]; then
 	# update feeds
 	echo "update feeds"
@@ -53,7 +47,6 @@ if [ -x "/bin/opkg" ]; then
 		lang_version=$(jsonfilter -i momo.version -e "@['packages']['luci-i18n-momo-${lang}']")
 		opkg install "$feed_url/luci-i18n-momo-${lang}_${lang_version}_all.ipk"
 	done
-	
 	rm -f momo.version
 elif [ -x "/usr/bin/apk" ]; then
 	# update feeds
@@ -69,5 +62,4 @@ elif [ -x "/usr/bin/apk" ]; then
 		apk add --allow-untrusted -X $feed_url/packages.adb "luci-i18n-momo-${lang}"
 	done
 fi
-
 echo "success" 
